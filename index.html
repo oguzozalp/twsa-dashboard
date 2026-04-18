@@ -119,6 +119,16 @@
         .report-card h3 { color: white; margin-top: 0; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
         .report-card p { color: #aaa; font-size: 14px; line-height: 1.6; text-align: justify; }
         .card-grace { border-top-color: #00BFFF; } .card-ai { border-top-color: #ff4444; } .card-drought { border-top-color: #FFA500; }
+
+        /* DATA SECTION CSS */
+        .data-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; transition: 0.3s; cursor: pointer; text-align: center; flex: 1; min-width: 250px; position: relative; overflow: hidden; backdrop-filter: blur(5px);}
+        .data-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.05); border-color: #00BFFF; box-shadow: 0 10px 20px rgba(0,191,255,0.1);}
+        .data-card h3 { margin: 0 0 10px 0; color: white; font-size: 18px;}
+        .data-card p { margin: 0 0 20px 0; color: #888; font-size: 13px;}
+        .sub-card { padding: 15px; min-width: 200px; border-top: 3px solid #00BFFF; }
+        .sub-card h4 { margin: 0 0 15px 0; color: #ccc; font-size: 15px;}
+        .dl-btn { background: rgba(0,191,255,0.1); color: #00BFFF; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; border: 1px solid #00BFFF; transition: 0.3s; display: inline-block;}
+        .data-card:hover .dl-btn { background: #00BFFF; color: white;}
     </style>
 </head>
 <body>
@@ -131,7 +141,7 @@
             <a onclick="scrollToSection('choropleth-section')" class="nav-link" id="nav-choro">Choropleth Map</a>
             <a onclick="scrollToSection('report-section')" class="nav-link" id="nav-report">Bilimsel Rapor</a>
             <a onclick="scrollToSection('contact-section')" class="nav-link" id="nav-contact">İletişim</a>
-            <a href="#" class="nav-link" onclick="alert('Veriler çok yakında yüklenecektir.')">Veriler</a>
+            <a onclick="scrollToSection('data-section')" class="nav-link" id="nav-data">Veriler</a>
         </div>
     </nav>
 
@@ -300,14 +310,66 @@
             <p style="color: #888; font-size: 14px; margin-top: 5px;">Sorularınız ve akademik işbirlikleri için bize yazın.</p>
         </div>
         <div style="max-width: 600px; margin: 0 auto; background: rgba(255,255,255,0.02); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
-            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
-                <input type="text" placeholder="İsim" style="flex: 1; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; font-family: 'Inter', sans-serif;">
-                <input type="text" placeholder="Soyisim" style="flex: 1; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; font-family: 'Inter', sans-serif;">
+            <form id="contact-form">
+                <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                    <input type="text" id="contact-name" placeholder="İsim" required style="flex: 1; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; font-family: 'Inter', sans-serif;">
+                    <input type="text" id="contact-surname" placeholder="Soyisim" required style="flex: 1; padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; font-family: 'Inter', sans-serif;">
+                </div>
+                <input type="email" id="contact-email" placeholder="E-Posta Adresi" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-family: 'Inter', sans-serif;">
+                <input type="text" id="contact-subject" placeholder="Konu" required style="width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-family: 'Inter', sans-serif;">
+                <textarea id="contact-message" placeholder="Mesajınız..." rows="5" required style="width: 100%; padding: 12px 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+                <button type="submit" id="contact-submit-btn" style="width: 100%; padding: 15px; border: none; border-radius: 8px; background: #00BFFF; color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(0,191,255,0.3);" onmouseover="this.style.background='#009acd'" onmouseout="this.style.background='#00BFFF'">Gönder</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DATA SECTION -->
+    <div id="data-section" style="padding: 60px 5% 60px 5%; background: linear-gradient(180deg, #0a0a0a 0%, #14161c 100%); border-top: 2px solid #555;">
+        <div class="dash-header" style="text-align: center; margin-bottom: 40px; display: block;">
+            <h2 style="color: #fff; margin:0;">Veri Setleri ve Kaynaklar</h2>
+            <p style="color: #888; font-size: 14px; margin-top: 5px;">Projede kullanılan makine öğrenmesi veri setlerini cihazınıza indirebilirsiniz.</p>
+        </div>
+        
+        <div class="data-grid" style="display: flex; gap: 20px; max-width: 800px; margin: 0 auto; justify-content: center; flex-wrap: wrap;">
+            <a href="turkıye/forecast_lstm_era5_2002_2025_04.csv" download style="text-decoration: none; display: flex; flex: 1;">
+                <div class="data-card">
+                    <div style="font-size: 30px; margin-bottom: 10px;">🇹🇷</div>
+                    <h3>Türkiye Genel TWSA</h3>
+                    <p>forecast_lstm_era5_2002_2025_04.csv</p>
+                    <span class="dl-btn">İndir 📥</span>
+                </div>
+            </a>
+            
+            <div class="data-card" onclick="toggleBasins()">
+                <div style="font-size: 30px; margin-bottom: 10px;">🌊</div>
+                <h3>Havzalar</h3>
+                <p>Havza bazlı detaylı LSTM setleri</p>
+                <span class="dl-btn" id="basin-toggle-btn">Genişlet 🔽</span>
             </div>
-            <input type="email" placeholder="E-Posta Adresi" style="width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-family: 'Inter', sans-serif;">
-            <input type="text" placeholder="Konu" style="width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-family: 'Inter', sans-serif;">
-            <textarea placeholder="Mesajınız..." rows="5" style="width: 100%; padding: 12px 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; box-sizing: border-box; font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
-            <button style="width: 100%; padding: 15px; border: none; border-radius: 8px; background: #00BFFF; color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(0,191,255,0.3);" onmouseover="this.style.background='#009acd'" onmouseout="this.style.background='#00BFFF'">Gönder</button>
+        </div>
+
+        <div id="basin-sub-grid" style="display: none; gap: 20px; max-width: 900px; margin: 30px auto 0 auto; justify-content: center; flex-wrap: wrap; opacity: 0; transition: opacity 0.5s;">
+            <a href="havza/forecast_lstm_Firat_Dicle_Havzasi_2025_04.csv" download style="text-decoration: none; flex: 1; display: flex;">
+                <div class="data-card sub-card">
+                    <div style="font-size: 20px; margin-bottom: 10px;">💧</div>
+                    <h4>Fırat-Dicle Havzası</h4>
+                    <span class="dl-btn">İndir 📥</span>
+                </div>
+            </a>
+            <a href="havza/forecast_lstm_Kizilirmak_Havzasi_2025_04.csv" download style="text-decoration: none; flex: 1; display: flex;">
+                <div class="data-card sub-card">
+                    <div style="font-size: 20px; margin-bottom: 10px;">💧</div>
+                    <h4>Kızılırmak Havzası</h4>
+                    <span class="dl-btn">İndir 📥</span>
+                </div>
+            </a>
+            <a href="havza/forecast_lstm_Konya_Kapali_Havzasi_2025_04.csv" download style="text-decoration: none; flex: 1; display: flex;">
+                <div class="data-card sub-card">
+                    <div style="font-size: 20px; margin-bottom: 10px;">💧</div>
+                    <h4>Konya Kapalı Havzası</h4>
+                    <span class="dl-btn">İndir 📥</span>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -3590,6 +3652,20 @@ const basinMenuItems = {
             }
         }
 
+        function toggleBasins() {
+            const grid = document.getElementById('basin-sub-grid');
+            const btn = document.getElementById('basin-toggle-btn');
+            if (grid.style.display === 'none' || grid.style.display === '') {
+                grid.style.display = 'flex';
+                btn.innerText = 'Daralt 🔼';
+                setTimeout(() => { grid.style.opacity = '1'; }, 50);
+            } else {
+                grid.style.opacity = '0';
+                setTimeout(() => { grid.style.display = 'none'; }, 500);
+                btn.innerText = 'Genişlet 🔽';
+            }
+        }
+
         // Scroll Spy for Navbar
         window.addEventListener('scroll', () => {
             const sections = [
@@ -3597,7 +3673,8 @@ const basinMenuItems = {
                 { id: 'dashboard-section', navId: 'nav-sim' },
                 { id: 'choropleth-section', navId: 'nav-choro' },
                 { id: 'report-section', navId: 'nav-report' },
-                { id: 'contact-section', navId: 'nav-contact' }
+                { id: 'contact-section', navId: 'nav-contact' },
+                { id: 'data-section', navId: 'nav-data' }
             ];
             
             let currentSectionId = 'map-wrapper';
@@ -3615,6 +3692,69 @@ const basinMenuItems = {
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             const activeLink = document.getElementById(currentSectionId);
             if (activeLink) activeLink.classList.add('active');
+        });
+        // İletişim Formu İşlemleri
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('contact-submit-btn');
+            const originalText = btn.innerText;
+            btn.innerText = 'Gönderiliyor...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            const name = document.getElementById('contact-name').value;
+            const surname = document.getElementById('contact-surname').value;
+            const email = document.getElementById('contact-email').value;
+            const subject = document.getElementById('contact-subject').value;
+            const message = document.getElementById('contact-message').value;
+
+            const targetEmail = "twsaprojectioncommunucation@gmail.com"; 
+
+            // FormData kullanarak daha stabil bir gönderim yapalım
+            const formData = new FormData();
+            formData.append("İsim", name);
+            formData.append("Soyisim", surname);
+            formData.append("E-Posta", email);
+            formData.append("Konu", subject);
+            formData.append("Mesaj", message);
+            formData.append("_captcha", "false"); // Captcha'yı devre dışı bırak
+
+            fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) return response.json();
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: 'Mesajınız iletildi. Eğer ilk kez gönderiyorsan, lütfen mail kutunu (ve Spam klasörünü) kontrol ederek aktivasyon mailini onayla.',
+                    icon: 'success',
+                    background: '#14161c',
+                    color: '#fff',
+                    confirmButtonColor: '#00BFFF'
+                });
+                document.getElementById('contact-form').reset();
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Mesaj gönderilirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.',
+                    icon: 'error',
+                    background: '#14161c',
+                    color: '#fff',
+                    confirmButtonColor: '#ff4444'
+                });
+            })
+            .finally(() => {
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            });
         });
     </script>
 </body>
