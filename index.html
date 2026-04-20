@@ -139,7 +139,7 @@
 <body>
 
     <nav id="top-nav">
-        <h1 class="nav-brand">TWSA PROJEKSİYON</h1>
+        <h1 class="nav-brand">TADIS - TWSA PROJEKSIYON</h1>
         <div style="display: flex; align-items: center;">
             <div class="nav-links">
                 <a onclick="scrollToSection('map-wrapper')" class="nav-link active" id="nav-home">Ana Sayfa</a>
@@ -210,6 +210,7 @@
                 <div id="dash-date">2002-01 <span class="badge badge-grace">GRACE</span></div>
                 <div id="dash-twsa">TWSA: Bekleniyor</div>
             </div>
+            <input type="month" id="dash-date-picker" class="theme-date-picker" min="2002-01" max="2030-03" onchange="setDateFromPicker('dash', this.value)">
             <input type="range" id="dash-slider" min="0" max="100" value="0" step="1">
         </div>
         <div id="dash-chart-container"></div>
@@ -230,9 +231,12 @@
                 <div id="choro-date" style="font-size: 22px; font-weight: bold; color: white; letter-spacing: 2px; display: flex; align-items: center; gap: 10px;">2002-01 <span class="badge badge-grace">GRACE</span></div>
                 <div id="choro-twsa" style="font-size: 14px; font-weight: bold; color: #ff4444; margin-top: 5px;">TWSA: Bekleniyor</div>
             </div>
+            <input type="month" id="choro-date-picker" class="theme-date-picker" min="2002-01" max="2030-03" onchange="setDateFromPicker('choro', this.value)">
             <input type="range" id="choro-slider" style="flex-grow: 1; cursor: pointer; -webkit-appearance: none; background: transparent;" min="0" max="100" value="0" step="1" oninput="updateChoroState(parseInt(this.value))">
         </div>
         <style>
+            .theme-date-picker { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 5px 10px; border-radius: 5px; font-family: inherit; margin-right: 15px; cursor: pointer; outline: none; }
+            .theme-date-picker::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
             #choro-slider::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #ff4444; cursor: pointer; margin-top: -10px; box-shadow: 0 0 15px rgba(255,68,68,0.6); transition: 0.2s;}
             #choro-slider::-webkit-slider-runnable-track { width: 100%; height: 6px; cursor: pointer; background: rgba(255,255,255,0.2); border-radius: 3px; }
         </style>
@@ -3306,6 +3310,23 @@ const basinData = {
             }
         }
 
+        function setDateFromPicker(type, val) {
+            let idx = fullDates.indexOf(val);
+            if(idx === -1) {
+                if(val < fullDates[0]) idx = 0;
+                else if(val > fullDates[fullDates.length-1]) idx = fullDates.length-1;
+            }
+            if(idx !== -1) {
+                if(type === 'dash') {
+                    document.getElementById('dash-slider').value = idx;
+                    updateDashState(idx, false);
+                } else {
+                    document.getElementById('choro-slider').value = idx;
+                    updateChoroState(idx);
+                }
+            }
+        }
+
         function updateChoroState(index) {
             if(!choroEChart || index >= fullDates.length || typeof havzalarGeoJSON === 'undefined') return;
             const dateStr = fullDates[index]; 
@@ -3315,6 +3336,7 @@ const basinData = {
             let textColor = '#00BFFF'; if (twsaVal < 0) textColor = '#FFA500'; if (twsaVal < -10) textColor = '#ff4444';
 
             document.getElementById('choro-date').innerHTML = `${dateStr} ${badgeHtml}`;
+            document.getElementById('choro-date-picker').value = dateStr;
             const twsaDisplay = document.getElementById('choro-twsa');
             twsaDisplay.innerText = `Türkiye Geneli TWSA: ${twsaVal > 0 ? '+' : ''}${twsaVal} cm`;
             twsaDisplay.style.color = textColor;
@@ -3338,6 +3360,7 @@ const basinData = {
             let textColor = '#00BFFF'; if (twsaVal < 0) textColor = '#FFA500'; if (twsaVal < -10) textColor = '#ff4444';
 
             document.getElementById('dash-date').innerHTML = `${dateStr} ${badgeHtml}`;
+            document.getElementById('dash-date-picker').value = dateStr;
             const twsaDisplay = document.getElementById('dash-twsa');
             twsaDisplay.innerText = `TWSA: ${twsaVal > 0 ? '+' : ''}${twsaVal} cm`;
             twsaDisplay.style.color = textColor;
@@ -3778,7 +3801,7 @@ const basinMenuItems = {
             "Bilimsel Rapor": "Scientific Report",
             "İletişim": "Contact",
             "Veriler": "Data",
-            "TWSA PROJEKSİYON": "TWSA PROJECTION",
+            "TADIS - TWSA PROJEKSIYON": "TADIS - TWSA PROJECTION",
             "⮌ Genel Görünüme Dön": "⮌ Return to Main View",
             "TWSA'ya bireysel": "Do you want to see your individual",
             "etkini": "impact",
