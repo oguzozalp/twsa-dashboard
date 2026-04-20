@@ -27,6 +27,11 @@
         .nav-link.active { color: #00BFFF; font-weight: bold; }
         .nav-link.active::after { width: 100%; box-shadow: 0 0 8px rgba(0,191,255,0.8); }
         
+        .lang-switcher { display: flex; gap: 12px; align-items: center; margin-left: 20px; }
+        .lang-flag { width: 28px; height: 20px; cursor: pointer; border-radius: 3px; opacity: 0.5; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); object-fit: cover; }
+        .lang-flag:hover { opacity: 0.8; transform: scale(1.1); }
+        .lang-flag.active-lang { opacity: 1; border-color: #00BFFF; box-shadow: 0 0 10px rgba(0,191,255,0.6); }
+
         .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-bottom: 40px; }
         .team-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; text-align: center; width: 160px; transition: 0.3s; backdrop-filter: blur(5px); }
         .team-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); border-color: #00BFFF; }
@@ -135,13 +140,19 @@
 
     <nav id="top-nav">
         <h1 class="nav-brand">TWSA PROJEKSİYON</h1>
-        <div class="nav-links">
-            <a onclick="scrollToSection('map-wrapper')" class="nav-link active" id="nav-home">Ana Sayfa</a>
-            <a onclick="scrollToSection('dashboard-section')" class="nav-link" id="nav-sim">Detaylı Simülasyon</a>
-            <a onclick="scrollToSection('choropleth-section')" class="nav-link" id="nav-choro">Choropleth Map</a>
-            <a onclick="scrollToSection('report-section')" class="nav-link" id="nav-report">Bilimsel Rapor</a>
-            <a onclick="scrollToSection('contact-section')" class="nav-link" id="nav-contact">İletişim</a>
-            <a onclick="scrollToSection('data-section')" class="nav-link" id="nav-data">Veriler</a>
+        <div style="display: flex; align-items: center;">
+            <div class="nav-links">
+                <a onclick="scrollToSection('map-wrapper')" class="nav-link active" id="nav-home">Ana Sayfa</a>
+                <a onclick="scrollToSection('dashboard-section')" class="nav-link" id="nav-sim">Detaylı Simülasyon</a>
+                <a onclick="scrollToSection('choropleth-section')" class="nav-link" id="nav-choro">Choropleth Map</a>
+                <a onclick="scrollToSection('report-section')" class="nav-link" id="nav-report">Bilimsel Rapor</a>
+                <a onclick="scrollToSection('contact-section')" class="nav-link" id="nav-contact">İletişim</a>
+                <a onclick="scrollToSection('data-section')" class="nav-link" id="nav-data">Veriler</a>
+            </div>
+            <div class="lang-switcher">
+                <img src="https://flagcdn.com/w40/tr.png" alt="Türkçe" onclick="changeLang('tr')" class="lang-flag active-lang" id="flag-tr" title="Türkçe">
+                <img src="https://flagcdn.com/w40/gb.png" alt="English" onclick="changeLang('en')" class="lang-flag" id="flag-en" title="English">
+            </div>
         </div>
     </nav>
 
@@ -3388,15 +3399,15 @@ const basinData = {
 
         const markersContainer = []; let nodes = []; let isGeneralViewOpen = false; let activeBasinCenter = null;
 
-        const trCoords = [33.8, 39.2]; 
+        const trCoords = [32.5, 39.5]; 
         const trEl = document.createElement('div'); trEl.className = 'main-marker marker-tr';
         const trLabel = document.createElement('div'); trLabel.className = 'main-marker-label'; trLabel.innerText = 'Türkiye Geneli TWSA'; trEl.appendChild(trLabel);
         new mapboxgl.Marker(trEl).setLngLat(trCoords).addTo(map); markersContainer.push(trEl);
 
         const basins = [
-            { name: 'Konya Kapalı Havzası', coords: [35, 37.9], camera: [33.5, 38.0] },
-            { name: 'Fırat-Dicle Havzası', coords: [39.5, 38.5], camera: [39.5, 38.0] }, 
-            { name: 'Kızılırmak Havzası', coords: [38, 40.85], camera: [35.5, 39.5] } 
+            { name: 'Konya Kapalı Havzası', coords: [33.23, 38.17], camera: [33.5, 38.0] },
+            { name: 'Fırat-Dicle Havzası', coords: [41.50, 38.50], camera: [39.5, 38.0] }, 
+            { name: 'Kızılırmak Havzası', coords: [35.61, 40.08], camera: [35.5, 39.5] } 
         ];
         
         
@@ -3756,6 +3767,128 @@ const basinMenuItems = {
                 btn.disabled = false;
             });
         });
+
+        // ==========================================
+        // MULTI-LANGUAGE SUPPORT
+        // ==========================================
+        const trToEn = {
+            "Ana Sayfa": "Home",
+            "Detaylı Simülasyon": "Detailed Simulation",
+            "Choropleth Map": "Choropleth Map",
+            "Bilimsel Rapor": "Scientific Report",
+            "İletişim": "Contact",
+            "Veriler": "Data",
+            "TWSA PROJEKSİYON": "TWSA PROJECTION",
+            "⮌ Genel Görünüme Dön": "⮌ Return to Main View",
+            "TWSA'ya bireysel": "Do you want to see your individual",
+            "etkini": "impact",
+            "görmek ister misin?": "on TWSA?",
+            "Bireysel Su Ayak İzi": "Individual Water Footprint",
+            "Günlük alışkanlıkların su rezervlerine etkisini görün.": "See the impact of your daily habits on water reserves.",
+            "🪥 Diş Fırçalama": "🪥 Brushing Teeth",
+            "Daima Kapatırım": "Always turn off",
+            "Bazen Unuturum": "Sometimes forget",
+            "Hep Açık": "Always on",
+            "👕 Bulaşık Makinesi": "👕 Dishwasher",
+            "Tam Dolu": "Full Load",
+            "Yarım Dolu": "Half Load",
+            "🚿 Duş Süresi": "🚿 Shower Duration",
+            "5 Dakika": "5 Minutes",
+            "10 Dakika": "10 Minutes",
+            "15+ Dakika": "15+ Minutes",
+            "Alışkanlıklarınız Havzanın Ömründen": "Your habits stole from the basin's life",
+            "0 Saat": "0 Hours",
+            "Çaldı.": "hours.",
+            "⇩ Detaylı Simülasyon": "⇩ Detailed Simulation",
+            "Türkiye Geneli TWSA": "General Turkey TWSA",
+            "▶ Grafiği Oynat": "▶ Play Graph",
+            "Havza Analizi": "Basin Analysis",
+            "Özel Analiz": "Custom Analysis",
+            "[Veri Bekleniyor]": "[Awaiting Data]",
+            "Görsel Panel": "Visual Panel",
+            "Yapay Zeka Zaman Çizelgesi ve Simülasyonu": "AI Timeline and Simulation",
+            "⮝ Haritaya Dön": "⮝ Return to Map",
+            "TWSA: Bekleniyor": "TWSA: Awaiting",
+            "⇩ Choropleth Haritası": "⇩ Choropleth Map",
+            "Dinamik Choropleth Kuraklık Haritası": "Dynamic Choropleth Drought Map",
+            "⮝ Simülasyona Dön": "⮝ Return to Simulation",
+            "Haritayı zamana göre oynatarak Türkiye'nin hidrolojik havzalarındaki TWSA kuraklık durumunu izleyebilirsiniz.": "Monitor TWSA drought status in Turkey's hydrological basins by playing the map.",
+            "⇩ Bilimsel Rapor": "⇩ Scientific Report",
+            "Dönemsel Analiz ve Akademik Rapor": "Periodic Analysis and Academic Report",
+            "⮝ Dashboard'a Dön": "⮝ Return to Dashboard",
+            "🔬 Metodoloji ve Veri Doğrulama (Akademik Kanıt)": "🔬 Methodology and Data Validation (Academic Evidence)",
+            "Uydu Verisi (GRACE-FO & Sentinel-1):": "Satellite Data (GRACE-FO & Sentinel-1):",
+            "Geçmiş yıllara ait TWSA verileri NASA/JPL GRACE Tellus veri setinden alınmış olup, konumsal (spatial) olarak havzalara göre maskelenmiştir. Obruk ve çökme riskleri, ESA Sentinel-1 SAR interferometrisi ile yer düzlemi deformasyonu (subsidence) baz alınarak doğrudan fiziksel ölçümlerle valide edilmiştir.": "Historical TWSA data were obtained from the NASA/JPL GRACE Tellus dataset and masked spatially by basins. Sinkhole and subsidence risks were validated by direct physical measurements based on ground plane deformation using ESA Sentinel-1 SAR interferometry.",
+            "Yapay Zeka Mimarisi (LSTM-GRU):": "AI Architecture (LSTM-GRU):",
+            "2025-2030 geleceğe dönük tahminlemeler; ERA5 sıcaklık, yağış ve buharlaşma parametreleriyle desteklenerek, PyTorch üzerinde eğitilmiş Hibrit LSTM sinir ağları ile çalıştırılmıştır. Modelin tarihsel verilere uyumu (validation) %89-%95 arasında R² skoru vermektedir.": "Forward-looking predictions for 2025-2030 were run with Hybrid LSTM neural networks trained on PyTorch, supported by ERA5 temp, precip, and evap parameters. Model validation to historical data yields an R² score between 89%-95%.",
+            "GRACE Uydusu (2002-2025)": "GRACE Satellite (2002-2025)",
+            "Gravity Recovery and Climate Experiment (GRACE) ikiz uyduları, yeryüzündeki kütleçekim anormalliklerini ölçerek Karasal Su Depolama (TWSA) verilerini elde etmiştir. Bu veriler, yeraltı suyu, kar, buz ve yüzey sularındaki toplam değişimi santimetre bazında cm eşdeğer su yüksekliği (EWH) olarak bize sunar.": "The Gravity Recovery and Climate Experiment (GRACE) twin satellites obtained Terrestrial Water Storage (TWSA) data by measuring gravity anomalies. These data provide the total change in groundwater, snow, ice, and surface waters in centimeters as equivalent water height (EWH).",
+            "Türkiye'nin su geçmişine bakıldığında 2008 ve 2021 yıllarında şiddetli kuraklık periyotları tespit edilmiş ve yeraltı su seviyelerinde kritik eşikler aşılmıştır.": "Looking at Turkey's water history, severe drought periods were detected in 2008 and 2021, and critical thresholds in groundwater levels were exceeded.",
+            "LSTM-GRU Hibrit Model (2026-2030)": "LSTM-GRU Hybrid Model (2026-2030)",
+            "Geçmiş 23 yıllık uydu verisi, Long Short-Term Memory (LSTM) ve Gated Recurrent Unit (GRU) yapay zeka mimarileriyle eğitilerek gelecek 5 yılın projeksiyonu çizilmiştir.": "The past 23 years of satellite data were trained with Long Short-Term Memory (LSTM) and Gated Recurrent Unit (GRU) artificial intelligence architectures to draw a projection for the next 5 years.",
+            "Derin öğrenme modelleri, trend analizlerinde yeraltı sularının kendini yenileme kapasitesinin (Recharge Rate) azaldığını ve antropojenik tüketimin artış ivmesini matematiksel olarak doğrulamaktadır.": "Deep learning models mathematically confirm in trend analyses that the self-renewal capacity of groundwater has decreased and the momentum of anthropogenic consumption has increased.",
+            "Bölgesel Su Stresi ve Çözüm": "Regional Water Stress and Solution",
+            "Haritadan elde edilen veriler ışığında, özellikle Konya Kapalı Havzasında su çekilmesine bağlı jeodezik deformasyon (çökme ve obruk) riskleri maksimum seviyeye ulaşmıştır.": "In light of the data obtained from the map, geodetic deformation (subsidence and sinkhole) risks due to water withdrawal have reached maximum levels, especially in the Konya Closed Basin.",
+            "Acil eylem planı olarak; havza bazında vahşi sulamadan vazgeçilmesi ve ürün deseninin su isteği daha düşük endemik türlere kaydırılması sistemin çöküşünü geciktirecek yegane faktördür.": "As an emergency action plan; abandoning wild irrigation on a basin basis and shifting the crop pattern to endemic species with lower water demand is the only factor that will delay the collapse of the system.",
+            "⇩ İletişim ve Proje Ekibi": "⇩ Contact and Project Team",
+            "Projeyi Hazırlayanlar": "Project Developers",
+            "Bu karar destek sistemi aşağıdaki araştırma ekibi tarafından geliştirilmiştir.": "This decision support system was developed by the following research team.",
+            "Danışman": "Advisor",
+            "Araştırmacı / Geliştirici": "Researcher / Developer",
+            "Bizimle İletişime Geçin": "Contact Us",
+            "Sorularınız ve akademik işbirlikleri için bize yazın.": "Write to us for your questions and academic collaborations.",
+            "İsim": "Name",
+            "Soyisim": "Surname",
+            "E-Posta Adresi": "Email Address",
+            "Konu": "Subject",
+            "Mesajınız...": "Your Message...",
+            "Gönder": "Send",
+            "Veri Setleri ve Kaynaklar": "Datasets and Resources",
+            "Projede kullanılan makine öğrenmesi veri setlerini cihazınıza indirebilirsiniz.": "You can download the machine learning datasets used in the project to your device.",
+            "Türkiye Genel TWSA": "Turkey General TWSA",
+            "İndir 📥": "Download 📥",
+            "Havzalar": "Basins",
+            "Havza bazlı detaylı LSTM setleri": "Basin-based detailed LSTM sets",
+            "Genişlet 🔽": "Expand 🔽",
+            "Fırat-Dicle Havzası": "Euphrates-Tigris Basin",
+            "Kızılırmak Havzası": "Kızılırmak Basin",
+            "Konya Kapalı Havzası": "Konya Closed Basin"
+        };
+        
+        const enToTr = {};
+        for(let key in trToEn) enToTr[trToEn[key]] = key;
+
+        function translateNode(node, dict) {
+            if (node.nodeType === 3) {
+                let trimmed = node.nodeValue.trim();
+                if (trimmed && dict[trimmed]) {
+                    node.nodeValue = node.nodeValue.replace(trimmed, dict[trimmed]);
+                }
+            } else if (node.nodeType === 1 && node.nodeName !== 'SCRIPT' && node.nodeName !== 'STYLE') {
+                if (node.placeholder && dict[node.placeholder]) {
+                    node.placeholder = dict[node.placeholder];
+                }
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    translateNode(node.childNodes[i], dict);
+                }
+            }
+        }
+
+        window.currentLang = 'tr';
+        function changeLang(lang) {
+            if (window.currentLang === lang) return;
+            window.currentLang = lang;
+            
+            // Tarayıcının CSS (text-transform: uppercase) kurallarını dile göre ayarlaması için:
+            // İngilizce'de 'i' harfi 'I' olur, Türkçe'de 'İ' olur.
+            document.documentElement.lang = lang;
+            
+            document.querySelectorAll('.lang-flag').forEach(el => el.classList.remove('active-lang'));
+            document.getElementById('flag-' + lang).classList.add('active-lang');
+            
+            let dict = lang === 'en' ? trToEn : enToTr;
+            translateNode(document.body, dict);
+        }
     </script>
 </body>
 </html>
