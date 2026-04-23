@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TADIS | TURKIYE'S AI Drought Analysis Information System</title>
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
@@ -14,13 +14,17 @@
     <script src="havzalar_data.js?v=eb661d8a"></script>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: #0b0c10;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
-            overflow-y: auto;
+            width: 100%;
             color: white;
             scroll-behavior: smooth;
         }
@@ -213,6 +217,52 @@
 
         .marker-hz::after {
             background-color: #FFA500;
+        }
+
+        @media (max-width: 600px) {
+            /* Havza etiketlerini orijinal (orta) yerlerine geri çekiyoruz */
+            .main-marker-label {
+                font-size: 11px !important;
+                padding: 4px 10px !important;
+                white-space: nowrap;
+                transform: translate(-50%, -140%) !important;
+                left: 50% !important;
+                top: 0 !important;
+            }
+            
+            /* Türkiye etiketini butona biraz daha yakınlaştırdık (Kızılırmak'tan koordinatla kaçtık) */
+            .marker-tr .main-marker-label {
+                transform: translate(-50%, -140%) !important;
+            }
+            .marker-tr {
+                z-index: 100 !important;
+            }
+            
+            .main-marker {
+                width: 16px !important;
+                height: 16px !important;
+            }
+            
+            /* Panellerin navbar'ın üstüne çıkması ve kapatma butonu */
+            .content-panel {
+                z-index: 2000 !important;
+                padding-top: 70px !important;
+            }
+            
+            .panel-close {
+                top: 20px !important;
+                right: 20px !important;
+                font-size: 26px !important;
+                background: rgba(0, 191, 255, 0.2);
+                border: 1px solid #00BFFF;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                color: #00BFFF !important;
+            }
         }
 
         .main-marker-label {
@@ -1093,6 +1143,208 @@
             transform: scale(1.02);
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
+
+        /* MOBILE MENU BUTTON */
+        #mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        #mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: #00BFFF;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 768px) {
+            #top-nav {
+                padding: 15px 20px;
+                background: rgba(11, 12, 16, 0.95);
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-brand {
+                font-size: 14px;
+                letter-spacing: 1px;
+                max-width: 80%;
+            }
+
+            #mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: #0b0c10;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+                z-index: 1050;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: 16px;
+            }
+
+            /* Toggle Animation */
+            #top-nav.menu-open #mobile-menu-btn span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+            #top-nav.menu-open #mobile-menu-btn span:nth-child(2) { opacity: 0; }
+            #top-nav.menu-open #mobile-menu-btn span:nth-child(3) { transform: rotate(-45deg) translate(6px, -7px); }
+
+            #dashboard-section, #report-section, #contact-section, #data-section, #risk-analysis-section, #interactive-map-section {
+                padding: 50px 15px !important;
+                width: 100% !important;
+                overflow-x: hidden;
+            }
+
+            .dash-header {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+                margin-bottom: 25px;
+            }
+
+            .dash-header h2 { font-size: 19px; line-height: 1.3; }
+
+            #dash-timeline-bar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px 15px;
+                width: 100%;
+            }
+
+            #dash-info { margin-right: 0; text-align: center; width: 100%; }
+            #dash-slider { width: 100%; margin-top: 10px; }
+
+            .report-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .data-grid {
+                flex-direction: column;
+                gap: 20px;
+                padding: 0 10px;
+            }
+
+            .data-card {
+                width: 100% !important;
+                min-width: unset;
+                margin-bottom: 10px;
+            }
+
+            /* FULL SCREEN MOBILE PANELS */
+            .content-panel {
+                width: 100% !important;
+                height: 100% !important;
+                max-height: 100vh !important;
+                top: 0 !important;
+                left: 0 !important;
+                transform: none !important;
+                border-radius: 0;
+                padding: 60px 20px 20px 20px;
+            }
+
+            .echarts-container {
+                height: 300px;
+            }
+
+            #footprint-widget {
+                width: 92%;
+                right: 4%;
+                left: 4%;
+                top: 75px;
+                border-radius: 12px;
+            }
+
+            #reset-view-btn {
+                left: 15px;
+                top: 75px;
+            }
+
+            .scroll-down-btn {
+                display: none; /* Hide confusing scroll buttons on mobile */
+            }
+
+            .team-grid {
+                gap: 15px;
+            }
+
+            .team-card {
+                width: 45%; /* Two cards per row on most phones */
+                min-width: 140px;
+            }
+
+            /* Iframe Adjustment */
+            #interactive-map-section iframe {
+                min-height: 500px !important;
+            }
+
+            /* RISK MATRIX TO CARDS CONVERSION */
+            .risk-matrix {
+                display: none !important; /* Hide table on mobile */
+            }
+
+            .mobile-risk-cards {
+                display: flex !important;
+                flex-direction: column;
+                gap: 20px;
+                margin-top: 30px;
+            }
+
+            .mobile-risk-item {
+                background: rgba(255,255,255,0.03);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 12px;
+                padding: 20px;
+                position: relative;
+            }
+
+            .mobile-risk-item h4 {
+                margin: 0 0 10px 0;
+                font-size: 16px;
+                color: #00BFFF;
+            }
+
+            .mobile-risk-label {
+                font-size: 12px;
+                color: #888;
+                text-transform: uppercase;
+                margin-bottom: 5px;
+            }
+            
+            .mobile-risk-val {
+                font-size: 14px;
+                color: #eee;
+                line-height: 1.5;
+                margin-bottom: 15px;
+            }
+
+            .risk-legend-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        /* Desktop Only Hidden Elements */
+        .mobile-risk-cards { display: none; }
     </style>
 </head>
 
@@ -1100,7 +1352,7 @@
 
     <nav id="top-nav">
         <h1 class="nav-brand">TADIS | TURKIYE AI DROUGHT ANALYSIS INFORMATION SYSTEM</h1>
-        <div class="nav-links">
+        <div class="nav-links" id="nav-links-container">
             <a onclick="scrollToSection('map-wrapper')" class="nav-link active" id="nav-home">Ana Sayfa</a>
             <a onclick="scrollToSection('dashboard-section')" class="nav-link" id="nav-sim">AI Tahmin Modu</a>
             <a onclick="scrollToSection('interactive-map-section')" class="nav-link" id="nav-intermap">İnteraktif
@@ -1110,6 +1362,11 @@
             <a onclick="scrollToSection('report-section')" class="nav-link" id="nav-report">Metodoloji</a>
             <a onclick="scrollToSection('contact-section')" class="nav-link" id="nav-contact">İletişim</a>
             <a onclick="scrollToSection('data-section')" class="nav-link" id="nav-data">Veriler</a>
+        </div>
+        <div id="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </nav>
 
@@ -1281,6 +1538,25 @@
                     id="rd-score-value">%0</strong>
             </div>
         </div>
+
+        <table class="risk-matrix">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Karakteristik Parametre</th>
+                    <th style="width: 25%;">Havza Durum Özeti</th>
+                    <th style="width: 50%;">Kritik Eşik ve Risk Değerlendirmesi</th>
+                </tr>
+            </thead>
+            <tbody id="risk-table-body">
+                <!-- Veriler dinamik gelecek -->
+            </tbody>
+        </table>
+
+        <!-- Mobile Alternative for Risk Matrix -->
+        <div class="mobile-risk-cards" id="mobile-risk-body">
+            <!-- Dinamik mobil kartlar buraya gelecek -->
+        </div>
+
         <button class="scroll-down-btn" style="bottom: 20px; border-color: #bb86fc; color: #bb86fc;"
             onclick="scrollToSection('report-section')">⇩ Akademik Rapor</button>
     </div>
@@ -1554,11 +1830,67 @@
     </div>
 
     <script>
+        function updateRiskAnalysis(basinName) {
+            const container = document.getElementById('risk-table-body');
+            const mobileContainer = document.getElementById('mobile-risk-body');
+            container.innerHTML = '';
+            mobileContainer.innerHTML = '';
+            
+            const basinInfo = riskAnalysisData[basinName] || riskAnalysisData['Türkiye Geneli'];
+
+            basinInfo.params.forEach(p => {
+                // Desktop Table
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: bold; color: #00BFFF;">${p.name}</td>
+                    <td>${p.status}</td>
+                    <td style="position: relative; padding-top: 45px;">
+                        <span class="risk-badge ${p.badgeClass}">${p.badge}</span>
+                        ${p.desc}
+                    </td>
+                `;
+                container.appendChild(tr);
+
+                // Mobile Cards
+                const card = document.createElement('div');
+                card.className = 'mobile-risk-item';
+                card.innerHTML = `
+                    <span class="risk-badge ${p.badgeClass}">${p.badge}</span>
+                    <h4>${p.name}</h4>
+                    <div class="mobile-risk-label">Durum Özeti</div>
+                    <div class="mobile-risk-val">${p.status}</div>
+                    <div class="mobile-risk-label">Risk Değerlendirmesi</div>
+                    <div class="mobile-risk-val">${p.desc}</div>
+                `;
+                mobileContainer.appendChild(card);
+            });
+        }
+
         mapboxgl.accessToken = 'pk.eyJ1Ijoib2d1em96YWxwIiwiYSI6ImNtbXhpY3h6NDMwN2wycnMya3picHV0OW4ifQ.dQ0unoi08Pl-nsh_XLRcWQ';
 
+        const isMobileView = window.innerWidth <= 768;
+
+        // Masaüstü ve Mobil için başlangıç değerlerini TEK SEFERDE belirliyoruz
+        const initialZoom = isMobileView ? 3.9 : 5.0;
+        const initialCenter = isMobileView ? [35.2433, 37.0] : [35.0, 39.0];
+
         const map = new mapboxgl.Map({
-            container: 'map', style: 'mapbox://styles/mapbox/satellite-v9', projection: 'globe',
-            zoom: 5.0, center: [35.0, 39.0], pitch: 0, bearing: 0, interactive: false
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/satellite-v9', 
+            projection: 'globe',
+            zoom: initialZoom, 
+            center: initialCenter, 
+            pitch: 0, 
+            bearing: 0, 
+            interactive: false
+        });
+
+        // Sadece mobildeki tarayıcı çubuğu boşluğunu almak için resize yapıyoruz, jumpTo/setZoom YOK!
+        map.on('load', () => {
+            map.resize();
+            setTimeout(() => {
+                markersContainer.forEach(el => el.style.display = 'block');
+            }, 500);
         });
 
         function slowScrollTo(targetY, duration) {
@@ -1580,6 +1912,21 @@
             const targetY = document.getElementById(sectionId).offsetTop;
             slowScrollTo(targetY, 1200);
             if (sectionId === 'dashboard-section' && !dashEChart) initDashChart();
+            
+            // Close mobile menu if open
+            const navLinks = document.getElementById('nav-links-container');
+            const topNav = document.getElementById('top-nav');
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                topNav.classList.remove('menu-open');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links-container');
+            const topNav = document.getElementById('top-nav');
+            navLinks.classList.toggle('active');
+            topNav.classList.toggle('menu-open');
         }
 
         // ==========================================
@@ -4340,6 +4687,7 @@
 
         // Orijinal Animasyonlu Çizim Fonksiyonu (Görseli Fotoğrafa Uyarlandı)
         function getEChartsOption(basinName, histData, predData) {
+            const isMobile = window.innerWidth < 768;
             let cleanBasin = basinName.replace(' (ERA5)', '');
             let fullHist = basinData[cleanBasin] ? basinData[cleanBasin].hist : histData;
             let fullPred = basinData[cleanBasin] ? basinData[cleanBasin].pred : predData;
@@ -4364,18 +4712,53 @@
                 animation: false,
                 animationDurationUpdate: 0,
                 backgroundColor: 'transparent',
-                title: { text: basinName, left: 'center', textStyle: { color: '#333', fontSize: 16 } },
+                title: { 
+                    text: basinName, 
+                    left: 'center', 
+                    top: 5,
+                    textStyle: { color: '#333', fontSize: isMobile ? 14 : 16 } 
+                },
                 tooltip: { trigger: 'axis' },
-                legend: { data: ['Gözlem Verisi (Tarihsel)', 'LSTM Tahmini'], bottom: 0, textStyle: { color: '#555' } },
-                grid: { left: '3%', right: '4%', bottom: '15%', top: '15%', containLabel: true },
-                xAxis: { type: 'category', boundaryGap: false, data: fullDates, axisLabel: { color: '#555' }, splitLine: { show: true, lineStyle: { color: '#eee' } } },
-                yAxis: { type: 'value', min: minVal, max: maxVal, interval: interval, axisLabel: { formatter: '{value} cm', color: '#555' } },
+                legend: { 
+                    data: ['Gözlem Verisi (Tarihsel)', 'LSTM Tahmini'], 
+                    bottom: 0, 
+                    textStyle: { color: '#555', fontSize: isMobile ? 10 : 12 } 
+                },
+                grid: { 
+                    left: isMobile ? '12%' : '3%', 
+                    right: isMobile ? '5%' : '4%', 
+                    bottom: isMobile ? '18%' : '15%', 
+                    top: isMobile ? '15%' : '15%', 
+                    containLabel: true 
+                },
+                xAxis: { 
+                    type: 'category', 
+                    boundaryGap: false, 
+                    data: fullDates, 
+                    axisLabel: { 
+                        color: '#555', 
+                        fontSize: isMobile ? 9 : 11,
+                        interval: isMobile ? 48 : 24
+                    }, 
+                    splitLine: { show: true, lineStyle: { color: '#eee' } } 
+                },
+                yAxis: { 
+                    type: 'value', 
+                    min: minVal, 
+                    max: maxVal, 
+                    interval: interval, 
+                    axisLabel: { 
+                        formatter: '{value} cm', 
+                        color: '#555',
+                        fontSize: isMobile ? 9 : 11
+                    } 
+                },
                 series: [
                     {
-                        name: 'Gözlem Verisi (Tarihsel)', type: 'line', connectNulls: true, smooth: true, lineStyle: { width: 2.5, color: '#666666' }, data: histData,
-                        markLine: { symbol: ['none', 'none'], label: { formatter: '2025 AI Sınırı', position: 'insideStartTop', color: '#000' }, lineStyle: { color: '#000', type: 'dashed', width: 1.5 }, data: [{ xAxis: '2025-04' }] }
+                        name: 'Gözlem Verisi (Tarihsel)', type: 'line', connectNulls: true, smooth: true, lineStyle: { width: 2.5, color: '#666666' }, data: fullHist,
+                        markLine: { symbol: ['none', 'none'], label: { formatter: isMobile ? 'AI' : '2025 AI Sınırı', position: 'insideStartTop', color: '#000' }, lineStyle: { color: '#000', type: 'dashed', width: 1.5 }, data: [{ xAxis: '2025-04' }] }
                     },
-                    { name: 'LSTM Tahmini', type: 'line', connectNulls: true, smooth: true, lineStyle: { width: 2.5, color: 'green' }, data: predData }
+                    { name: 'LSTM Tahmini', type: 'line', connectNulls: true, smooth: true, lineStyle: { width: 2.5, color: 'green' }, data: fullPred }
                 ]
             };
         }
@@ -4474,8 +4857,8 @@
 
         const markersContainer = []; let nodes = []; let isGeneralViewOpen = false; let activeBasinCenter = null;
 
-        const trCoords = [34.4, 39.8];
-        const trEl = document.createElement('div'); trEl.className = 'main-marker marker-tr';
+        const trCoords = [34.4, isMobileView ? 40.5 : 39.8];
+        const trEl = document.createElement('div'); trEl.id = 'marker-tr'; trEl.className = 'main-marker marker-tr';
         const trLabel = document.createElement('div'); trLabel.className = 'main-marker-label'; trLabel.innerText = 'Türkiye Geneli TWSA'; trEl.appendChild(trLabel);
         new mapboxgl.Marker(trEl).setLngLat(trCoords).addTo(map); markersContainer.push(trEl);
 
@@ -4711,23 +5094,35 @@
             'Fırat-Dicle Havzası': ['Tarımsal Su Stresi', 'Yer Altı Suyu (YAS) Çekilim Hızı', 'Yüzey Suyu ve Akım Kaybı']
         };
 
-        basins.forEach(basin => {
-            const el = document.createElement('div'); el.className = 'main-marker marker-hz';
-            const label = document.createElement('div'); label.className = 'main-marker-label'; label.innerText = basin.name; el.appendChild(label);
+        basins.forEach((basin, index) => {
+            const el = document.createElement('div'); el.className = `main-marker marker-hz marker-hz-${index}`;
+            const label = document.createElement('div'); label.className = 'main-marker-label'; 
+            
+            // Readable names but still shortened for mobile
+            const isMobile = window.innerWidth < 768;
+            let displayName = basin.name;
+            if (isMobile) {
+                displayName = basin.name.replace(' Kapalı Havzası', ' Hv.').replace(' Havzası', ' Hv.');
+            }
+            
+            label.innerText = displayName; 
+            el.appendChild(label);
             new mapboxgl.Marker(el).setLngLat(basin.coords).addTo(map); markersContainer.push(el);
 
             // Eski Click Animasyonları Birebir Aynı
             el.addEventListener('click', () => {
                 hideMainMarkers(); isGeneralViewOpen = false; activeBasinCenter = basin.camera;
                 document.getElementById('basin-title').innerText = `${basin.name}`;
-                map.flyTo({ center: basin.camera, zoom: 6.8, pitch: 0, speed: 1.0, essential: true });
+                const isMob = window.innerWidth < 768;
+                map.flyTo({ center: basin.camera, zoom: isMob ? 5.8 : 6.8, pitch: 0, speed: 1.0, essential: true });
                 setTimeout(() => { createNodes(basin.name, basin.camera); document.getElementById('reset-view-btn').style.display = 'block'; map.dragPan.enable(); }, 1200);
             });
         });
 
         trEl.addEventListener('click', () => {
             hideMainMarkers(); isGeneralViewOpen = true; activeBasinCenter = null;
-            map.flyTo({ center: trCoords, zoom: 5.5, pitch: 0, speed: 1.8, essential: true });
+            const isMob = window.innerWidth < 768;
+            map.flyTo({ center: trCoords, zoom: isMob ? 3.9 : 5.5, pitch: 0, speed: 1.8, essential: true });
             setTimeout(() => {
                 openPanel('panel-general-twsa');
                 document.getElementById('reset-view-btn').style.display = 'block';
@@ -4779,11 +5174,13 @@
             const lng = centerCoords[0]; const lat = centerCoords[1];
             const specItems = basinMenuItems[basinName] || [];
 
+            const isMob = window.innerWidth < 768;
+            const shift = isMob ? -1.8 : 0; // Grubu komple sola kaydırma miktarı
             const nodeData = [
-                { coords: [lng - 0.4, lat + 0.4], label: 'TWSA AI Tahmini', target: 'panel-twsa' },
-                { coords: [lng - 0.4, lat - 0.4], label: specItems[0] || 'Kritik Senaryo', target: 'panel-scenario' },
-                { coords: [lng + 0.4, lat + 0.4], label: specItems[1] || 'Görsel Simülasyon', target: 'panel-visual' },
-                { coords: [lng + 0.4, lat - 0.4], label: specItems[2] || 'Su Stresi', target: 'panel-visual' }
+                { coords: [lng - 0.4 + shift, lat + 0.4], label: 'TWSA AI Tahmini', target: 'panel-twsa' },
+                { coords: [lng - 0.4 + shift, lat - 0.4], label: specItems[0] || 'Kritik Senaryo', target: 'panel-scenario' },
+                { coords: [lng + 0.4 + shift, lat + 0.4], label: specItems[1] || 'Görsel Simülasyon', target: 'panel-visual' },
+                { coords: [lng + 0.4 + shift, lat - 0.4], label: specItems[2] || 'Su Stresi', target: 'panel-visual' }
             ];
 
             nodeData.forEach((data, index) => {
@@ -4821,9 +5218,10 @@
         function closePanels() {
             closePanelsUIOnly();
             if (panelPlayInterval) clearInterval(panelPlayInterval);
+            const isMob = window.innerWidth < 768;
             if (isGeneralViewOpen) {
-                map.flyTo({ center: trCoords, zoom: 5.5, pitch: 0, speed: 0.8 });
-            } else if (nodes.length > 0 && activeBasinCenter) { map.flyTo({ center: activeBasinCenter, zoom: 6.8, pitch: 0, speed: 0.8 }); }
+                map.flyTo({ center: trCoords, zoom: isMob ? 3.9 : 5.5, pitch: 0, speed: 0.8 });
+            } else if (nodes.length > 0 && activeBasinCenter) { map.flyTo({ center: activeBasinCenter, zoom: isMob ? 5.8 : 6.8, pitch: 0, speed: 0.8 }); }
         }
 
         document.getElementById('reset-view-btn').addEventListener('click', () => {
@@ -4831,11 +5229,12 @@
             nodes.forEach(m => m.remove()); nodes = []; if (panelPlayInterval) clearInterval(panelPlayInterval);
             isGeneralViewOpen = false; activeBasinCenter = null;
             const widget = document.getElementById('footprint-widget'); if (widget.classList.contains('show')) toggleFootprintWidget();
-            map.flyTo({ center: [35.0, 39.0], zoom: 5.0, pitch: 0, bearing: 0, speed: 1.5 });
+            const isMob = window.innerWidth < 768;
+            map.flyTo({ center: [35.0, 39.0], zoom: isMob ? 3.9 : 5.0, pitch: 0, bearing: 0, speed: 1.5 });
             setTimeout(() => { markersContainer.forEach(el => el.style.display = 'block'); map.dragPan.disable(); }, 1000);
         });
 
-        function toggleFootprintWidget() { const widget = document.getElementById('footprint-widget'); const openBtn = document.getElementById('footprint-open-btn'); const tooltip = document.getElementById('footprint-tooltip'); if (widget.classList.contains('show')) { widget.classList.remove('show'); openBtn.style.display = 'flex'; if (tooltip) tooltip.style.opacity = '1'; } else { if (nodes.length > 0 && activeBasinCenter) { map.flyTo({ center: activeBasinCenter, zoom: 6.8, speed: 0.5 }); } widget.classList.add('show'); openBtn.style.display = 'none'; if (tooltip) tooltip.style.opacity = '0'; } }
+        function toggleFootprintWidget() { const isMob = window.innerWidth < 768; const widget = document.getElementById('footprint-widget'); const openBtn = document.getElementById('footprint-open-btn'); const tooltip = document.getElementById('footprint-tooltip'); if (widget.classList.contains('show')) { widget.classList.remove('show'); openBtn.style.display = 'flex'; if (tooltip) tooltip.style.opacity = '1'; } else { if (nodes.length > 0 && activeBasinCenter) { map.flyTo({ center: activeBasinCenter, zoom: isMob ? 5.8 : 6.8, speed: 0.5 }); } widget.classList.add('show'); openBtn.style.display = 'none'; if (tooltip) tooltip.style.opacity = '0'; } }
 
         function calculateFootprint() {
             const teeth = parseFloat(document.getElementById('teeth-select').value);
@@ -5004,6 +5403,7 @@
             const dom = document.getElementById('risk-echarts-container');
             if (!dom) return;
             const myChart = echarts.init(dom, 'dark');
+            const isMobile = window.innerWidth < 768;
             const option = {
                 backgroundColor: 'transparent',
                 tooltip: {
@@ -5013,18 +5413,28 @@
                                 <span>${params.data.basin} | Risk: %${params.value}</span>`;
                     }
                 },
-                legend: { show: false },
-                grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+                legend: { show: !isMobile },
+                grid: { 
+                    left: isMobile ? '5%' : '3%', 
+                    right: isMobile ? '5%' : '4%', 
+                    bottom: isMobile ? '25%' : '3%', 
+                    containLabel: true 
+                },
                 xAxis: {
                     type: 'category',
-                    data: ['Konya Kapalı Havzası', 'Fırat-Dicle Havzası', 'Kızılırmak Havzası'],
-                    axisLabel: { color: '#fff', fontSize: 13, fontWeight: 'bold' }
+                    data: isMobile ? ['Konya', 'Fırat', 'Kızılırmak'] : ['Konya Kapalı Havzası', 'Fırat-Dicle Havzası', 'Kızılırmak Havzası'],
+                    axisLabel: { 
+                        color: '#fff', 
+                        fontSize: isMobile ? 11 : 13, 
+                        fontWeight: 'bold',
+                        rotate: isMobile ? 30 : 0
+                    }
                 },
                 yAxis: {
                     type: 'value',
-                    name: 'Risk Oranı (%)',
+                    name: isMobile ? '%' : 'Risk Oranı (%)',
                     max: 100,
-                    axisLabel: { color: '#aaa' },
+                    axisLabel: { color: '#aaa', fontSize: isMobile ? 10 : 12 },
                     splitLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } }
                 },
                 series: [
@@ -5032,7 +5442,20 @@
                         name: 'Tarımsal Su Stresi',
                         type: 'bar',
                         barGap: '15%',
-                        label: { show: true, position: 'insideBottom', formatter: '{a}', rotate: 90, color: '#fff', fontSize: 13, offset: [0, -10], align: 'left', verticalAlign: 'middle', fontWeight: 'bold', textShadowColor: '#000', textShadowBlur: 3 },
+                        label: { 
+                            show: !isMobile, 
+                            position: 'insideBottom', 
+                            formatter: '{a}', 
+                            rotate: 90, 
+                            color: '#fff', 
+                            fontSize: 13, 
+                            offset: [0, -10], 
+                            align: 'left', 
+                            verticalAlign: 'middle', 
+                            fontWeight: 'bold', 
+                            textShadowColor: '#000', 
+                            textShadowBlur: 3 
+                        },
                         data: [
                             { value: 80, basin: 'Konya Kapalı Havzası', text: "Yıllık 4.36 milyar m³ yenilenebilir kapasiteye karşın, fiili tüketimin 6.5 milyar m³ seviyesine ulaşması sistemsel bir iflası göstermektedir. Kontrolsüz tarımsal genişleme havzayı yapısal kuraklık rejimine sokmuştur.", itemStyle: { color: '#ff4444' } },
                             { value: 65, basin: 'Fırat-Dicle Havzası', text: "GAP hedefleri doğrultusunda alanın sadece %60.8'ine sulama altyapısının ulaşmış olması, mevcut basınçlı hatların dışında kalan bölgelerde yoğun bir kontrolsüz kuyu kullanım stresi yaratmaktadır.", itemStyle: { color: '#FFA500' } },
@@ -5042,7 +5465,20 @@
                     {
                         name: 'YAS Çekilim Hızı',
                         type: 'bar',
-                        label: { show: true, position: 'insideBottom', formatter: '{a}', rotate: 90, color: '#fff', fontSize: 13, offset: [0, -10], align: 'left', verticalAlign: 'middle', fontWeight: 'bold', textShadowColor: '#000', textShadowBlur: 3 },
+                        label: { 
+                            show: !isMobile, 
+                            position: 'insideBottom', 
+                            formatter: '{a}', 
+                            rotate: 90, 
+                            color: '#fff', 
+                            fontSize: 13, 
+                            offset: [0, -10], 
+                            align: 'left', 
+                            verticalAlign: 'middle', 
+                            fontWeight: 'bold', 
+                            textShadowColor: '#000', 
+                            textShadowBlur: 3 
+                        },
                         data: [
                             { value: 95, basin: 'Konya Kapalı Havzası', text: "115.000'i aşkın kaçak kuyu aracılığıyla gerçekleşen dramatik düşüş, yeraltı boşluklarını çökerterek aktif obruk oluşumlarını (jeodezik deformasyon) geri dönülemez şekilde tetiklemektedir.", itemStyle: { color: '#8B0000' } },
                             { value: 85, basin: 'Fırat-Dicle Havzası', text: "GRACE-FO uydu verilerinin doğruladığı negatif anomali, yetersiz şebeke altyapısından dolayı derin sondajlara yüklenilmesiyle yeraltı rezervlerinin alarm verici hızda tüketildiğini göstermektedir.", itemStyle: { color: '#ff4444' } },
@@ -5052,7 +5488,20 @@
                     {
                         name: 'Yüzey Suyu ve Akım Kaybı',
                         type: 'bar',
-                        label: { show: true, position: 'insideBottom', formatter: '{a}', rotate: 90, color: '#fff', fontSize: 13, offset: [0, -10], align: 'left', verticalAlign: 'middle', fontWeight: 'bold', textShadowColor: '#000', textShadowBlur: 3 },
+                        label: { 
+                            show: !isMobile, 
+                            position: 'insideBottom', 
+                            formatter: '{a}', 
+                            rotate: 90, 
+                            color: '#fff', 
+                            fontSize: 13, 
+                            offset: [0, -10], 
+                            align: 'left', 
+                            verticalAlign: 'middle', 
+                            fontWeight: 'bold', 
+                            textShadowColor: '#000', 
+                            textShadowBlur: 3 
+                        },
                         data: [
                             { value: 65, basin: 'Konya Kapalı Havzası', text: "Bölgedeki yüzey sularının doğal akışları kesilerek tarımsal kanallara yönlendirilmesi; Tuz Gölü, Akşehir ve Beyşehir göllerindeki evaporasyon destekli su kaybını aşırı derecede hızlandırmıştır.", itemStyle: { color: '#FFA500' } },
                             { value: 40, basin: 'Fırat-Dicle Havzası', text: "Baraj yüzeylerindeki net buharlaşma oranlarının muazzam boyutlarına rağmen, Türkiye'nin hidrolik gücünün %27.6'sını karşılayan yapısal regülasyon hacmi mevcudiyetini korumaktadır.", itemStyle: { color: '#00BFFF' } },
@@ -5094,12 +5543,18 @@
                 card.style.borderColor = params.color;
                 card.style.boxShadow = '0 5px 25px ' + params.color + '33'; // 33 for 20% opacity hex
             });
-            window.addEventListener('resize', function () {
-                if (typeof myChart !== 'undefined' && myChart) myChart.resize();
-                if (typeof dashEChart !== 'undefined' && dashEChart) dashEChart.resize();
-                if (typeof activePanelChart !== 'undefined' && activePanelChart) activePanelChart.resize();
-            });
         }
+
+        // Global Chart Resize Listener
+        window.addEventListener('resize', function () {
+            if (typeof dashEChart !== 'undefined' && dashEChart) dashEChart.resize();
+            if (typeof activePanelChart !== 'undefined' && activePanelChart) activePanelChart.resize();
+            const riskDom = document.getElementById('risk-echarts-container');
+            if (riskDom) {
+                const riskChart = echarts.getInstanceByDom(riskDom);
+                if (riskChart) riskChart.resize();
+            }
+        });
 
         // Init chart after load
         document.addEventListener('DOMContentLoaded', () => {

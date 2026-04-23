@@ -129,6 +129,54 @@
             background: #334155; /* slate-700 */
             border-radius: 2px;
         }
+
+        /* MOBILE OVERRIDES FOR INTERACTIVE MAP */
+        @media (max-width: 768px) {
+            .mobile-header-stack {
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                gap: 8px !important;
+                padding: 10px !important;
+                justify-content: center !important;
+            }
+            .mobile-header-stack > * {
+                scale: 0.9;
+            }
+            .mobile-hidden { display: none !important; }
+            .mobile-date-container { min-width: 100px !important; }
+            #current-date-display {
+                font-size: 14px !important;
+            }
+            .info-box {
+                width: 80% !important;
+                left: 10% !important;
+                top: auto !important;
+                bottom: 120px !important;
+                right: auto !important;
+                scale: 0.8;
+                transform-origin: bottom center;
+            }
+            .legend {
+                bottom: 15px !important;
+                right: 15px !important;
+                transform: scale(0.65);
+                transform-origin: bottom right;
+                background: rgba(15, 23, 42, 0.95) !important;
+            }
+            #view-mode-container {
+                width: 140px !important;
+                top: auto !important;
+                bottom: 20px !important; /* Sol alt köşeye indirildi */
+                left: 10px !important;
+                scale: 0.75;
+                transform-origin: bottom left;
+            }
+            #time-slider-container {
+                width: 100% !important;
+                order: 10;
+                margin-top: 5px !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 h-screen flex flex-col overflow-hidden">
@@ -136,28 +184,28 @@
 
 
     <!-- Zaman Çizelgesi Slider (Üst Bar - Dashboard Uyumu) -->
-    <div class="bg-slate-900 border-b border-slate-800 px-6 py-4 z-20 flex items-center justify-between gap-6 shadow-md w-full">
+    <div class="bg-slate-900 border-b border-slate-800 px-6 py-4 z-20 flex items-center justify-between gap-6 shadow-md w-full mobile-header-stack">
         
         <button id="play-btn" class="flex items-center justify-center border-2 border-sky-400 text-sky-400 rounded-full w-12 h-12 text-xl hover:bg-sky-400 hover:text-white transition-all shadow-[0_0_15px_rgba(56,189,248,0.3)] flex-shrink-0">
             ▶
         </button>
         
-        <div class="flex flex-col min-w-[150px]">
+        <div class="flex flex-col min-w-[120px] mobile-date-container">
             <div class="flex items-center gap-2">
                 <span id="current-date-display" class="text-xl font-bold text-white tracking-wide">Ocak 2025</span>
-                <span class="text-[10px] border border-rose-500 text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded font-bold">AI TAHMİNİ</span>
+                <span class="text-[8px] border border-rose-500 text-rose-500 bg-rose-500/10 px-1 py-0.5 rounded font-bold mobile-hidden">AI TAHMİNİ</span>
             </div>
-            <div id="top-twsa-display" class="text-sm font-bold text-sky-400 mt-1">TWSA: Bekleniyor</div>
+            <div id="top-twsa-display" class="text-xs font-bold text-sky-400 mt-1">TWSA: Bekleniyor</div>
         </div>
         
-        <div class="flex items-center gap-2">
-            <select id="date-select" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-sky-400 transition-colors shadow-inner">
+        <div class="flex items-center gap-1">
+            <select id="date-select" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2 py-1 text-xs outline-none focus:border-sky-400 transition-colors shadow-inner">
                 <!-- JS tarafından doldurulacak -->
             </select>
         </div>
 
-        <div class="flex-1 px-4 mt-1">
-            <input type="range" id="time-slider" min="0" max="11" value="0" class="w-full">
+        <div class="flex-1 px-2 mt-1" id="time-slider-container">
+            <input type="range" id="time-slider" min="0" max="11" value="0" class="w-full h-2">
         </div>
     </div>
 
@@ -167,7 +215,7 @@
         <div id="map" class="absolute inset-0"></div>
 
         <!-- Görüntüleme Modu (Sol Üst) -->
-        <div class="absolute top-4 left-4 z-[1000] bg-slate-900/95 backdrop-blur-md border border-slate-700 rounded-xl p-3 shadow-xl w-64">
+        <div id="view-mode-container" class="absolute top-4 left-4 z-[1000] bg-slate-900/95 backdrop-blur-md border border-slate-700 rounded-xl p-3 shadow-xl w-64">
             <h4 class="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Görüntüleme Modu</h4>
             <select id="view-mode" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-teal-500 w-full transition-colors cursor-pointer">
                 <option value="hybrid">🌐 Hibrit (Tümü)</option>
@@ -260,10 +308,11 @@
         // ==============================================================================
         // 4. HARİTA BAŞLATMA VE KATMANLARI EKLEME
         // ==============================================================================
+        const isMobile = window.innerWidth < 768;
         const map = L.map('map', {
             center: [39.0, 35.0], // Türkiye Merkezi
-            zoom: 6,
-            minZoom: 5,
+            zoom: isMobile ? 4.5 : 6,
+            minZoom: 4,
             maxZoom: 10
         });
 
