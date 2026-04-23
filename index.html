@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TADIS | TURKİYE'S AI Drought Analysis Information System</title>
+    <title>TADIS | TURKIYE'S AI Drought Analysis Information System</title>
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
@@ -1099,13 +1099,13 @@
 <body>
 
     <nav id="top-nav">
-        <h1 class="nav-brand">TADIS | Türkiye AI Drought Analysis Information System</h1>
+        <h1 class="nav-brand">TADIS | TURKIYE AI DROUGHT ANALYSIS INFORMATION SYSTEM</h1>
         <div class="nav-links">
             <a onclick="scrollToSection('map-wrapper')" class="nav-link active" id="nav-home">Ana Sayfa</a>
             <a onclick="scrollToSection('dashboard-section')" class="nav-link" id="nav-sim">AI Tahmin Modu</a>
             <a onclick="scrollToSection('interactive-map-section')" class="nav-link" id="nav-intermap">İnteraktif
                 Harita</a>
-            <a onclick="scrollToSection('choropleth-section')" class="nav-link" id="nav-choro">Choropleth Map</a>
+
             <a onclick="scrollToSection('risk-analysis-section')" class="nav-link" id="nav-risk">Havza Risk Analizi</a>
             <a onclick="scrollToSection('report-section')" class="nav-link" id="nav-report">Metodoloji</a>
             <a onclick="scrollToSection('contact-section')" class="nav-link" id="nav-contact">İletişim</a>
@@ -1220,64 +1220,10 @@
 
         <button class="scroll-down-btn"
             style="bottom: 20px; border-color: #eab308; color: #eab308; z-index: 1000; background: rgba(11,12,16,0.8);"
-            onclick="scrollToSection('choropleth-section')">⇩ Choropleth Haritası</button>
-    </div>
-
-    <!-- CHOROPLETH MAP SECTION -->
-    <div id="choropleth-section"
-        style="width: 100vw; min-height: 100vh; background: linear-gradient(to bottom, #14161c, #0b0c10); padding: 50px; box-sizing: border-box; border-top: 2px solid #ff4444; display: flex; flex-direction: column; position: relative;">
-        <div class="dash-header">
-            <h2>Dinamik Choropleth Kuraklık Haritası</h2>
-            <button class="scroll-up-btn" onclick="scrollToSection('interactive-map-section')">⮝ İnteraktif Haritaya
-                Dön</button>
-        </div>
-        <p style="color:#aaa; font-size:14px;">Haritayı zamana göre oynatarak Türkiye'nin hidrolojik havzalarındaki TWSA
-            kuraklık durumunu izleyebilirsiniz.</p>
-
-        <div id="choro-timeline-bar"
-            style="display: flex; align-items: center; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); margin-top: 20px;">
-            <button id="choro-play-btn"
-                style="background: transparent; border: 2px solid #ff4444; color: #ff4444; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-right: 30px; transition: 0.3s;"
-                onclick="toggleChoroAnimation()">▶</button>
-            <div id="choro-info" style="display: flex; flex-direction: column; width: 180px; margin-right: 30px;">
-                <div id="choro-date"
-                    style="font-size: 22px; font-weight: bold; color: white; letter-spacing: 2px; display: flex; align-items: center; gap: 10px;">
-                    2002-01 <span class="badge badge-grace">GRACE</span></div>
-                <div id="choro-twsa" style="font-size: 14px; font-weight: bold; color: #ff4444; margin-top: 5px;">TWSA:
-                    Bekleniyor</div>
-            </div>
-            <input type="range" id="choro-slider"
-                style="flex-grow: 1; cursor: pointer; -webkit-appearance: none; background: transparent;" min="0"
-                max="100" value="0" step="1" oninput="updateChoroState(parseInt(this.value))">
-        </div>
-        <style>
-            #choro-slider::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                height: 24px;
-                width: 24px;
-                border-radius: 50%;
-                background: #ff4444;
-                cursor: pointer;
-                margin-top: -10px;
-                box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
-                transition: 0.2s;
-            }
-
-            #choro-slider::-webkit-slider-runnable-track {
-                width: 100%;
-                height: 6px;
-                cursor: pointer;
-                background: rgba(255, 255, 255, 0.2);
-                border-radius: 3px;
-            }
-        </style>
-
-        <div id="choro-echarts-container"
-            style="width: 100%; flex-grow: 1; min-height: 50vh; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); margin-top: 20px; box-sizing: border-box;">
-        </div>
-        <button class="scroll-down-btn" style="bottom: 20px; border-color: #8B0000; color: #ff6666;"
             onclick="scrollToSection('risk-analysis-section')">⇩ Havza Risk Analizi</button>
     </div>
+
+
 
     <!-- =========================================
          KATMAN 4: RİSK ANALİZ PANELİ
@@ -1285,7 +1231,7 @@
     <div id="risk-analysis-section">
         <div class="dash-header">
             <h2>Havza Risk Analizi ve Parametrik Değerlendirme</h2>
-            <button class="scroll-up-btn" onclick="scrollToSection('choropleth-section')">⮝ Choropleth Haritasına
+            <button class="scroll-up-btn" onclick="scrollToSection('interactive-map-section')">⮝ İnteraktif Haritaya
                 Dön</button>
         </div>
 
@@ -1505,6 +1451,13 @@
             </div>
         </div>
 
+        <!-- TEŞEKKÜR NOTU -->
+        <div style="text-align: center; margin-top: -5px; margin-bottom: 50px; padding: 0 5%;">
+            <p style="color: #888; font-size: 15px; font-style: italic; max-width: 850px; margin: 0 auto; line-height: 1.6;">
+                "Projemizi hazırlarken gerektiğinde yardımlarını esirgemeyen sayın Doç. Dr. Hatice Öncel Çekim ve sayın Muhammed Ali Güvenaltın'a teşekkür ederiz."
+            </p>
+        </div>
+
         <!-- İLETİŞİM FORMU -->
         <div class="dash-header" style="text-align: center; margin-top: 60px; margin-bottom: 30px; display: block;">
             <h2 style="color: #fff; margin:0;">Bizimle İletişime Geçin</h2>
@@ -1544,7 +1497,7 @@
         </div>
 
         <div class="data-grid"
-            style="display: flex; gap: 20px; max-width: 800px; margin: 0 auto; justify-content: center; flex-wrap: wrap;">
+            style="display: flex; gap: 20px; max-width: 1000px; margin: 0 auto; justify-content: center; flex-wrap: wrap;">
             <a href="turkıye/forecast_lstm_era5_2002_2025_04.csv" download
                 style="text-decoration: none; display: flex; flex: 1;">
                 <div class="data-card">
@@ -1555,12 +1508,20 @@
                 </div>
             </a>
 
-            <div class="data-card" onclick="toggleBasins()">
+            <div class="data-card" onclick="toggleBasins()" style="flex: 1;">
                 <div style="font-size: 30px; margin-bottom: 10px;">🌊</div>
                 <h3>Havzalar</h3>
                 <p>Havza bazlı detaylı LSTM setleri</p>
                 <span class="dl-btn" id="basin-toggle-btn">Genişlet 🔽</span>
             </div>
+
+            <a href="referanslar.docx" download style="text-decoration: none; display: flex; flex: 1;">
+                <div class="data-card">
+                    <div style="font-size: 30px; margin-bottom: 10px;">📚</div>
+                    <h3>Referanslar</h3>
+                    <span class="dl-btn">İndir 📥</span>
+                </div>
+            </a>
         </div>
 
         <div id="basin-sub-grid"
@@ -4432,117 +4393,16 @@
             setTimeout(() => { if (dashEChart) dashEChart.resize(); }, 150);
         }
 
-        function initChoroplethMap() {
-            const dom = document.getElementById('choro-echarts-container');
-            if (!dom) return;
-            choroEChart = echarts.init(dom, 'dark');
 
-            // Eğer havzalar_data.js dosyasından veri geldiyse
-            if (typeof havzalarGeoJSON !== 'undefined') {
-                echarts.registerMap('turkiye_havzalar', havzalarGeoJSON);
-
-                choroEChart.setOption({
-                    animation: false,
-                    animationDurationUpdate: 0,
-                    backgroundColor: 'transparent',
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: function (params) {
-                            return params.name + '<br/>TWSA: ' + (params.value ? params.value + ' cm' : 'Veri Yok');
-                        }
-                    },
-                    visualMap: {
-                        min: -20,
-                        max: 20,
-                        text: ['Nemli (+TWSA)', 'Kurak (-TWSA)'],
-                        realtime: false,
-                        calculable: true,
-                        inRange: {
-                            color: ['#8b0000', '#ff4444', '#FFA500', '#f5deb3', '#87CEEB', '#00BFFF', '#00008b']
-                        },
-                        textStyle: { color: '#ccc' }
-                    },
-                    series: [
-                        {
-                            name: 'TWSA',
-                            type: 'map',
-                            map: 'turkiye_havzalar',
-                            nameProperty: 'Name', // GeoJSON içindeki property
-                            roam: true,
-                            itemStyle: {
-                                borderColor: 'rgba(255,255,255,0.2)',
-                                borderWidth: 1,
-                                areaColor: '#333'
-                            },
-                            emphasis: {
-                                label: { show: true, color: '#fff' },
-                                itemStyle: { areaColor: '#bb86fc' }
-                            },
-                            data: [] // Başlangıçta boş
-                        }
-                    ]
-                });
-            } else {
-                console.error("havzalar_data.js bulunamadı.");
-            }
-            setTimeout(() => { if (choroEChart) choroEChart.resize(); }, 150);
-        }
 
         // initChoroplethMap'i sayfa yüklendiğinde çağırıyoruz
         setTimeout(() => {
             initDashChart();
-            initChoroplethMap();
             if (fullDates && fullDates.length > 0) {
-                document.getElementById('choro-slider').max = fullDates.length - 1;
-                document.getElementById('choro-slider').value = fullDates.length - 1;
-                updateChoroState(fullDates.length - 1);
             }
         }, 1000);
 
-        let choroPlayInterval;
-        function toggleChoroAnimation() {
-            let btn = document.getElementById('choro-play-btn');
-            if (choroPlayInterval) {
-                clearInterval(choroPlayInterval); choroPlayInterval = null; btn.innerHTML = '▶';
-            } else {
-                btn.innerHTML = '⏸';
-                let sld = document.getElementById('choro-slider');
-                if (parseInt(sld.value) >= fullDates.length - 1) { sld.value = 0; }
-                choroPlayInterval = setInterval(() => {
-                    let currentIndex = parseInt(sld.value);
-                    if (currentIndex >= fullDates.length - 1) { toggleChoroAnimation(); return; }
-                    currentIndex += 1; sld.value = currentIndex; updateChoroState(currentIndex);
-                }, 65);
-            }
-        }
 
-        function updateChoroState(index) {
-            if (!choroEChart || index >= fullDates.length || typeof havzalarGeoJSON === 'undefined') return;
-            const dateStr = fullDates[index];
-            const twsaVal = mergedTWSAData[index];
-
-            let badgeHtml = dateStr >= "2025-04" ? '<span class="badge badge-ai">AI TAHMİNİ</span>' : '<span class="badge badge-grace">GRACE UYDUSU</span>';
-            let textColor = '#00BFFF'; if (twsaVal < 0) textColor = '#FFA500'; if (twsaVal < -10) textColor = '#ff4444';
-
-            document.getElementById('choro-date').innerHTML = `${dateStr} ${badgeHtml}`;
-            const twsaDisplay = document.getElementById('choro-twsa');
-            twsaDisplay.innerText = `Türkiye Geneli TWSA: ${twsaVal > 0 ? '+' : ''}${twsaVal} cm`;
-            twsaDisplay.style.color = textColor;
-
-            // Haritayı boya
-            const uniqueNames = new Set();
-            const mapData = [];
-            havzalarGeoJSON.features.forEach(f => {
-                let name = f.properties.Name || f.properties.name;
-                if (!uniqueNames.has(name)) {
-                    uniqueNames.add(name);
-                    mapData.push({ name: name, value: twsaVal });
-                }
-            });
-            choroEChart.setOption({
-                series: [{ data: mapData }]
-            });
-        }
 
         function updateDashState(index, isPlaying = false) {
             if (!dashEChart || index >= fullDates.length) return;
@@ -5055,7 +4915,6 @@
             const sections = [
                 { id: 'map-wrapper', navId: 'nav-home' },
                 { id: 'dashboard-section', navId: 'nav-sim' },
-                { id: 'choropleth-section', navId: 'nav-choro' },
                 { id: 'risk-analysis-section', navId: 'nav-risk' },
                 { id: 'report-section', navId: 'nav-report' },
                 { id: 'contact-section', navId: 'nav-contact' },
@@ -5238,7 +5097,6 @@
             window.addEventListener('resize', function () {
                 if (typeof myChart !== 'undefined' && myChart) myChart.resize();
                 if (typeof dashEChart !== 'undefined' && dashEChart) dashEChart.resize();
-                if (typeof choroEChart !== 'undefined' && choroEChart) choroEChart.resize();
                 if (typeof activePanelChart !== 'undefined' && activePanelChart) activePanelChart.resize();
             });
         }
